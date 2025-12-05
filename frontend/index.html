@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Civic Grid</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Material Icons for standard social UI icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="logo">
+                <h1>CivicGrid</h1>
+            </div>
+            <ul class="nav-links">
+                <li class="active" onclick="switchTab('home', this)">
+                    <span class="material-icons-outlined">home</span>
+                    <span>Home</span>
+                </li>
+                <li onclick="switchTab('profile', this)">
+                    <span class="material-icons-outlined">person</span>
+                    <span>Profile</span>
+                </li>
+                <li onclick="switchTab('messages', this)">
+                    <span class="material-icons-outlined">chat_bubble_outline</span>
+                    <span>Messages</span>
+                </li>
+                <li onclick="switchTab('communities', this)">
+                    <span class="material-icons-outlined">groups</span>
+                    <span>Communities</span>
+                </li>
+                <li onclick="switchTab('education', this)">
+                    <span class="material-icons-outlined">school</span>
+                    <span>Education</span>
+                </li>
+                <li onclick="switchTab('settings', this)">
+                    <span class="material-icons-outlined">settings</span>
+                    <span>Settings</span>
+                </li>
+            </ul>
+
+            <!-- Pillar 2: Transparency Interface (Integrated into Nav) -->
+            <div class="transparency-widget">
+                <div class="timer-label">Session Time</div>
+                <div id="stopwatch" class="time-display">00:00</div>
+                <div class="status-bar" id="status-indicator"></div>
+            </div>
+        </nav>
+
+        <main class="content-area">
+            <!-- Home Feed Tab -->
+            <section id="tab-home" class="tab-content active">
+                <!-- Category Filter -->
+                <div class="category-filter">
+                    <button class="cat-btn active" onclick="filterCategory('all', this)">All</button>
+                    <button class="cat-btn" onclick="filterCategory('politics', this)">Politics</button>
+                    <button class="cat-btn" onclick="filterCategory('environment', this)">Environment</button>
+                    <button class="cat-btn" onclick="filterCategory('technology', this)">Technology</button>
+                    <button class="cat-btn" onclick="filterCategory('society', this)">Society</button>
+                </div>
+
+                <!-- Pillar 4: EU Rights Filter (Compose Input) -->
+                <div class="compose-card">
+                    <div class="input-row">
+                        <div class="avatar-small"></div>
+                        <input type="text" id="post-input" placeholder="Share a constructive perspective...">
+                        <button id="post-btn" disabled>Post</button>
+                    </div>
+                    <div class="rights-status" id="rights-status">
+                        <span class="status-dot"></span>
+                        <span class="status-text">EU Rights Check: Passive</span>
+                    </div>
+                </div>
+
+                <!-- Pillar 3: Solution-Oriented Ranking (Feed) -->
+                <div id="feed-container" class="feed-container">
+                    <!-- Posts injected here -->
+                </div>
+            </section>
+
+            <!-- Search Tab -->
+            <section id="tab-search" class="tab-content">
+                <div class="search-header">
+                    <div class="search-bar">
+                        <span class="material-icons-outlined">search</span>
+                        <input type="text" placeholder="Search">
+                    </div>
+                </div>
+                <div class="explore-grid">
+                    <!-- Mock Explore Grid -->
+                    <div class="grid-item"></div>
+                    <div class="grid-item"></div>
+                    <div class="grid-item"></div>
+                    <div class="grid-item"></div>
+                    <div class="grid-item"></div>
+                    <div class="grid-item"></div>
+                </div>
+            </section>
+
+            <!-- Profile Tab -->
+            <section id="tab-profile" class="tab-content">
+                <div class="profile-header">
+                    <div class="profile-info">
+                        <div class="profile-avatar-container">
+                            <img src="assets/alice.png" alt="Profile Avatar" class="profile-avatar-large">
+                            <!-- Placeholder -->
+                            <div class="profile-badge">Bridge Builder</div>
+                        </div>
+                        <div class="profile-text">
+                            <h2 id="profile-name">User Name</h2>
+                            <p id="profile-bio" class="profile-bio">Passionate about digital rights and constructive
+                                dialogue.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-value" id="stat-civic-score">85</span>
+                        <span class="stat-label">Civic Score</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value" id="stat-avg-session">18m</span>
+                        <span class="stat-label">Avg. Session</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value" id="stat-contributions">142</span>
+                        <span class="stat-label">Contributions</span>
+                    </div>
+                </div>
+
+                <div class="profile-activity">
+                    <h3>Recent Activity</h3>
+                    <div id="profile-activity-feed">
+                        <!-- Activity items injected here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Messages Tab -->
+            <section id="tab-messages" class="tab-content">
+                <div class="messages-header">
+                    <h2>Dialogues</h2>
+                    <button class="new-message-btn" onclick="alert('Start new dialogue (Mock)')">
+                        <span class="material-icons-outlined">add</span>
+                    </button>
+                </div>
+                <div class="messages-list" id="messages-list">
+                    <!-- Message items injected here -->
+                </div>
+            </section>
+
+            <!-- Communities Tab -->
+            <section id="tab-communities" class="tab-content">
+                <div class="messages-header">
+                    <h2>Communities</h2>
+                    <button class="new-message-btn" onclick="alert('Create community (Mock)')">
+                        <span class="material-icons-outlined">add</span>
+                    </button>
+                </div>
+                <div class="messages-list" id="communities-list">
+                    <!-- Community items injected here -->
+                </div>
+            </section>
+
+            <!-- Settings Tab -->
+            <section id="tab-settings" class="tab-content">
+                <div class="settings-header">
+                    <h2>Settings</h2>
+                </div>
+
+                <div class="settings-container">
+                    <!-- Algorithm Settings -->
+                    <div class="settings-section">
+                        <h3>Algorithm Tuning</h3>
+                        <p class="section-desc">Customize how the Civic Grid algorithm curates your feed.</p>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <label>Constructive Discourse Weight</label>
+                                <span class="setting-sub">Prioritize bridge-building content over engagement.</span>
+                            </div>
+                            <div class="setting-control">
+                                <input type="range" min="1" max="10" value="5" class="slider" id="discourse-weight">
+                            </div>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <label>Saturation Sensitivity</label>
+                                <span class="setting-sub">How quickly the app detects doomscrolling.</span>
+                            </div>
+                            <div class="setting-control">
+                                <select id="saturation-sensitivity">
+                                    <option value="low">Low</option>
+                                    <option value="medium" selected>Medium</option>
+                                    <option value="high">High</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <label>Strict EU Rights Filter</label>
+                                <span class="setting-sub">Automatically block potential rights violations.</span>
+                            </div>
+                            <div class="setting-control">
+                                <label class="switch">
+                                    <input type="checkbox" id="strict-filter" checked>
+                                    <span class="slider-round"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Data Settings -->
+                    <div class="settings-section">
+                        <h3>Data & Privacy</h3>
+                        <p class="section-desc">Manage how your data is used and stored.</p>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <label>Share Anonymized Usage Data</label>
+                                <span class="setting-sub">Help improve the Civic Grid algorithm.</span>
+                            </div>
+                            <div class="setting-control">
+                                <label class="switch">
+                                    <input type="checkbox" id="share-data">
+                                    <span class="slider-round"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="setting-actions">
+                            <button class="btn-secondary" onclick="alert('Data download started...')">Download My
+                                Data</button>
+                            <button class="btn-danger" onclick="alert('Data deleted.')">Delete All Data</button>
+                        </div>
+                    </div>
+
+
+
+                    <!-- Simulation Controls -->
+                    <div class="settings-section">
+                        <h3>Simulation Controls</h3>
+                        <div class="setting-actions">
+                            <button class="btn-primary" onclick="resetSimulation()">Reset Simulation</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Education Tab -->
+            <section id="tab-education" class="tab-content">
+                <div class="settings-header">
+                    <h2>Civic Education Hub</h2>
+                </div>
+                <div class="settings-container">
+                    <div class="settings-section">
+                        <p class="section-desc">Master the skills of constructive citizenship.</p>
+
+                        <div class="education-grid">
+                            <div class="edu-card" onclick="playVideo('rights')">
+                                <div class="edu-thumb">
+                                    <img src="assets/thumb_rights.png" alt="Human Rights">
+                                    <div class="play-icon">
+                                        <span class="material-icons-outlined">play_circle</span>
+                                    </div>
+                                </div>
+                                <div class="edu-info">
+                                    <h4>Human Rights 101</h4>
+                                    <span>5 min • Basics</span>
+                                </div>
+                            </div>
+
+                            <div class="edu-card" onclick="playVideo('discuss')">
+                                <div class="edu-thumb">
+                                    <img src="assets/thumb_discuss.png" alt="Constructive Discussion">
+                                    <div class="play-icon">
+                                        <span class="material-icons-outlined">play_circle</span>
+                                    </div>
+                                </div>
+                                <div class="edu-info">
+                                    <h4>How to Discuss</h4>
+                                    <span>8 min • Communication</span>
+                                </div>
+                            </div>
+
+                            <div class="edu-card" onclick="playVideo('bridge')">
+                                <div class="edu-thumb">
+                                    <img src="assets/thumb_bridge.png" alt="Bridging Divides">
+                                    <div class="play-icon">
+                                        <span class="material-icons-outlined">play_circle</span>
+                                    </div>
+                                </div>
+                                <div class="edu-info">
+                                    <h4>Bridging Divides</h4>
+                                    <span>12 min • Advanced</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Pillar 1: Saturation Point (Overlay) -->
+        <div id="saturation-overlay" class="saturation-overlay">
+            <div class="saturation-modal">
+                <h2>You're all caught up.</h2>
+                <p>You've seen all new constructive posts for today.</p>
+                <div class="saturation-stats">
+                    <span>Time: <b id="final-time">24m</b></span>
+                    <span>Posts: <b>12</b></span>
+                </div>
+                <button class="close-app-btn">Close CivicGrid</button>
+            </div>
+        </div>
+
+        <!-- Video Modal -->
+        <div id="video-modal" class="modal-overlay">
+            <div class="modal-content video-modal-content">
+                <div class="modal-header">
+                    <h3 id="video-title">Video Title</h3>
+                    <button class="close-modal-btn" onclick="closeVideo()">
+                        <span class="material-icons-outlined">close</span>
+                    </button>
+                </div>
+                <div class="video-placeholder">
+                    <span class="material-icons-outlined" style="font-size: 48px; color: #666;">play_circle</span>
+                    <p>Video Player Placeholder</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Modal -->
+        <div id="chat-modal" class="modal-overlay">
+            <div class="modal-content chat-modal-content">
+                <div class="modal-header">
+                    <div class="chat-header-user">
+                        <img src="" id="chat-avatar" class="avatar-small">
+                        <h3 id="chat-name">User Name</h3>
+                    </div>
+                    <button class="close-modal-btn" onclick="closeChat()">
+                        <span class="material-icons-outlined">close</span>
+                    </button>
+                </div>
+                <div id="chat-messages" class="chat-messages">
+                    <!-- Messages injected here -->
+                </div>
+                <div class="chat-input-area">
+                    <input type="text" id="chat-input" placeholder="Type a message...">
+                    <button onclick="sendMessage()">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Full Article Modal -->
+    <div id="article-modal" class="article-modal-overlay">
+        <div class="article-modal-content">
+            <button class="close-modal-btn" onclick="closeArticle()">
+                <span class="material-icons-outlined">close</span>
+            </button>
+            <div class="article-modal-header">
+                <h2 id="modal-title">Article Title</h2>
+                <div class="modal-meta">
+                    <span id="modal-author">Author Name</span> • <span id="modal-category">Category</span>
+                </div>
+            </div>
+            <div class="article-modal-body" id="modal-body">
+                <!-- Full content injected here -->
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
