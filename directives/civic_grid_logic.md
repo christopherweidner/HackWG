@@ -5,18 +5,7 @@ Simulate the backend logic for 'The Civic Grid', a social media platform priorit
 
 ## Core Pillars & Logic Flow
 
-### 1. The Saturation Point (The Anti-Feed)
-**Goal:** Detect "doomscrolling" and gracefully terminate the session.
-**Inputs:** `ScrollVelocity` (pixels/sec), `ContentInteractionTime` (ms per post), `SessionDuration`.
-**Logic:**
-1.  Calculate `AbsorptionRate`: Average time spent on the last 10 posts.
-2.  Monitor `ScrollVelocity`: If velocity exceeds `Threshold_V` (indicating skimming) for > 3 minutes.
-3.  **Decision:**
-    *   IF `AbsorptionRate` < 2s AND `ScrollVelocity` > `High`: Trigger **Saturation Event**.
-**Action:**
-*   **Phase 1 (Warning):** Desaturate UI colors by 50%.
-*   **Phase 2 (Limit):** Apply "Scroll Friction" (physically slow down scrolling).
-*   **Phase 3 (Shutdown):** Display "Daily Saturation Reached" summary card. Lock feed refresh for 4 hours.
+
 
 ### 2. The Transparency Interface (The Stopwatch)
 **Goal:** Make time usage an active, tangible constraint.
