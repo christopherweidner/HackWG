@@ -1,7 +1,7 @@
 // Configuration
 const CONFIG = {
     TIME_SCALE: 60,
-    SATURATION_THRESHOLD_VELOCITY: 1000,
+
     EU_RIGHTS_VIOLATIONS: ["discrim", "incit", "filth", "subhuman", "hate"],
     BRIDGE_TOKENS: ["however", "perhaps", "solution", "agree", "source", "propose", "consider"],
     TOXIC_TOKENS: ["stupid", "idiot", "shill", "fake", "liar", "dumb"]
@@ -183,8 +183,7 @@ While energy costs remain high, advancements in LED efficiency are making this m
             { type: "badge", content: "Earned 'Insightful' badge", time: "1d ago" }
         ]
     },
-    scrollVelocity: 0,
-    isSaturated: false,
+
     activeTab: 'home',
     activeCategory: 'all',
     communities: [
@@ -217,8 +216,7 @@ const els = {
     postInput: document.getElementById('post-input'),
     postBtn: document.getElementById('post-btn'),
     rightsStatus: document.getElementById('rights-status'),
-    saturationOverlay: document.getElementById('saturation-overlay'),
-    finalTime: document.getElementById('final-time')
+
 };
 
 // --- Navigation Logic ---
@@ -533,7 +531,7 @@ if (els.postBtn && els.postInput) {
 // --- Pillar 2: Transparency Interface (Timer) ---
 function startTimer() {
     setInterval(() => {
-        if (state.isSaturated) return;
+
 
         state.sessionTimeSeconds += 1;
 
@@ -745,37 +743,7 @@ els.postBtn.addEventListener('click', () => {
     text.style.color = "var(--text-secondary)";
 });
 
-// --- Pillar 1: Saturation Point ---
-let lastScrollY = window.scrollY;
-let lastTime = Date.now();
-let velocities = [];
 
-window.addEventListener('scroll', () => {
-    const now = Date.now();
-    const dt = now - lastTime;
-    if (dt < 100) return;
-
-    const dy = Math.abs(window.scrollY - lastScrollY);
-    const velocity = (dy / dt) * 1000;
-
-    velocities.push(velocity);
-    if (velocities.length > 10) velocities.shift();
-
-    const avgVelocity = velocities.reduce((a, b) => a + b, 0) / velocities.length;
-
-    if (avgVelocity > 2500 && !state.isSaturated) {
-        triggerSaturation();
-    }
-
-    lastScrollY = window.scrollY;
-    lastTime = now;
-});
-
-function triggerSaturation() {
-    state.isSaturated = true;
-    els.finalTime.textContent = `${state.sessionTimeSeconds}m`;
-    els.saturationOverlay.classList.add('active');
-}
 
 // Init
 renderFeed();
@@ -784,7 +752,7 @@ startTimer();
 // --- Settings Logic ---
 const settingsEls = {
     discourseWeight: document.getElementById('discourse-weight'),
-    saturationSensitivity: document.getElementById('saturation-sensitivity'),
+
     strictFilter: document.getElementById('strict-filter'),
     shareData: document.getElementById('share-data')
 };
@@ -797,15 +765,7 @@ if (settingsEls.discourseWeight) {
     });
 }
 
-if (settingsEls.saturationSensitivity) {
-    settingsEls.saturationSensitivity.addEventListener('change', (e) => {
-        const val = e.target.value;
-        if (val === 'low') CONFIG.SATURATION_THRESHOLD_VELOCITY = 4000;
-        if (val === 'medium') CONFIG.SATURATION_THRESHOLD_VELOCITY = 2500;
-        if (val === 'high') CONFIG.SATURATION_THRESHOLD_VELOCITY = 1000;
-        console.log(`Saturation Threshold updated to: ${CONFIG.SATURATION_THRESHOLD_VELOCITY}`);
-    });
-}
+
 
 if (settingsEls.strictFilter) {
     settingsEls.strictFilter.addEventListener('change', (e) => {
@@ -816,14 +776,12 @@ if (settingsEls.strictFilter) {
 
 window.resetSimulation = function () {
     state.sessionTimeSeconds = 0;
-    state.isSaturated = false;
-    state.scrollVelocity = 0;
-    velocities = [];
+
 
     // Reset UI
     els.body.classList.remove('state-amber', 'state-red');
     els.body.style.cursor = "default";
-    els.saturationOverlay.classList.remove('active');
+
     els.stopwatch.textContent = "00:00";
 
     alert("Simulation has been reset.");
